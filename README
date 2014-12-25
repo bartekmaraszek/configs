@@ -1,0 +1,7 @@
+.bashrc
+.gitconfig
+.vimrc
+.vrapperrc
+
+All go into the home folder e.g. /home/bartek
+.vrapperrc is a config file for "vrapper" which is an Eclipse plugin.
