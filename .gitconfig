@@ -1,6 +1,6 @@
 [user]
-	email = b.maraszek@sportradar.com
-	name = Bartlomiej Maraszek
+  	email = b.maraszek@gmail.com
+  	name = Bartek Maraszek
 [color]
     diff = auto
     status = auto
@@ -19,7 +19,7 @@
     #lg = log --graph --decorate --pretty=oneline --abbrev-commit --all
     lg = log --graph --decorate --pretty=oneline --abbrev-commit 
 [core]
-  autocrlf = false
-  pager = less -x4
+    autocrlf = false
+    pager = less -x4
     #autocrlf = true
 
