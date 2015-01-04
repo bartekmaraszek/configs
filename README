@@ -1,7 +1,13 @@
 .bashrc
 .gitconfig
+.tmux.conf
 .vimrc
 .vrapperrc
 
 All go into the home folder e.g. /home/bartek
+
 .vrapperrc is a config file for "vrapper" which is an Eclipse plugin.
+
+.tmux.conf is config file for tmux, a terminal multiplexer. It has to be installed separately.
+Donwload: http://tmux.sourceforge.net/
+How to use tips: http://robots.thoughtbot.com/a-tmux-crash-course
