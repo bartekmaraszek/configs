@@ -94,6 +94,8 @@ if has("gui_running")
   endif
 endif
 
+set guifont=Monaco:h16
+
 " Set extra options when running in GUI mode
 if has("gui_running")
     set guioptions-=T
@@ -145,10 +147,12 @@ nmap ; :
 map j gj
 map k gk
 
+" EasyMotion
+map <leader>s <Plug>(easymotion-s)
+
 " Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
 map <space> /
-map <c-space> ?
-
+map <C-space> ?
 " Disable highlight when <leader><cr> is pressed
 map <silent> <leader><cr> :noh<cr>
 
@@ -211,6 +215,10 @@ map 0 ^
 map - $
 map \ %
 
+" Remap jj and jk to Esc 
+" imap jk <Esc> 
+imap jj <Esc>
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Spell checking
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -222,6 +230,7 @@ map <leader>sn ]s
 map <leader>sp [s
 map <leader>sa zg
 map <leader>s? z=
+map <leader>n :NERDTree<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Misc
@@ -230,7 +239,7 @@ map <leader>s? z=
 noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 
 " Quickly open a buffer for scripbble
-map <leader>q :e ~/buffer<cr>
+map <leader>q :d ~/buffer<cr>
 
 " Toggle paste mode on and off
 map <leader>pp :setlocal paste!<cr>
