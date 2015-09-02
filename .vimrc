@@ -217,7 +217,7 @@ map \ %
 
 " Remap jj and jk to Esc 
 " imap jk <Esc> 
-imap jj <Esc>
+imap jj <Esc>l
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Spell checking
