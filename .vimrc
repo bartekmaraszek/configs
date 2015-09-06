@@ -5,6 +5,9 @@ execute pathogen#infect()
 filetype plugin on
 set omnifunc=syntaxcomplete#Complete
 
+" ctrlP
+set runtimepath^=~/.vim/bundle/ctrlp.vim
+
 " enable 256 colors
 set t_Co=256
 
@@ -81,9 +84,9 @@ set mat=2
 syntax enable
 
 if has("gui_running")
-  colorscheme desert
+  colorscheme molokai
 else
-  colorscheme elflord
+  colorscheme molokai
 endif
 
 if has("gui_running")
@@ -215,8 +218,7 @@ map 0 ^
 map - $
 map \ %
 
-" Remap jj and jk to Esc 
-" imap jk <Esc> 
+" Remap jj and to Esc 
 imap jj <Esc>l
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

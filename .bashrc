@@ -43,7 +43,7 @@ esac
 # uncomment for a colored prompt, if the terminal has the capability; turned
 # off by default to not distract the user: the focus in a terminal window
 # should be on the output of commands, not on the prompt
-#force_color_prompt=yes
+force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
@@ -85,35 +85,16 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 # some more ls aliases
-alias ll='ls -alF'
-alias lsla='ls -la'
-alias la='ls -la'
-alias lsa='ls -a'
-alias l='ls -CF'
+alias ls='ls -CFG'
+alias ll='ls -alFG'
+alias lsla='ls -laG'
+alias la='ls -laG'
+alias lsa='ls -aG'
+alias l='ls -CFG'
 
 # set by bartek:
-alias vi='gvim -p --remote-tab-silent'
-alias svi='sudo gvim -p --remote-tab-silent'
-alias svim='sudo vim -p --remote-tab-silent'
 alias root='sudo -i'
 alias su='sudo -i'
-alias share='cd /media/sf_share'
-alias agents='cd /usr/share/mcollective/plugins/mcollective/agent'
-alias repo='cd /home/bartek/checkout/puppet/site/infra/files/mcollective/agent'
-alias liquibase='cd /home/bartek/checkout/liquibase/databases'
-alias liqui='cd /home/bartek/checkout/liquibase/databases'
-alias mcrestart='sudo service mcollective restart'
-alias mqrestart='sudo service activemq restart'
-alias nping='mco rpc networkaccess ping host=www.vg.no'
-alias ndownload='mco rpc networkaccess download host=www.vg.no'
-alias npingj='mco rpc networkaccess ping host=www.vg.no -j'
-alias ndownloadj='mco rpc networkaccess download host=www.vg.no -j'
-alias ils='mco rpc ipmitool list'
-alias ilsj='mco rpc ipmitool list -j'
-alias top10='mco rpc varnishtop top limit=10 -I zrh4-fnfvarn02.ch.sportradar.ag -j --np'
-alias top='mco rpc varnishtop all -I zrh4-fnfvarn02.ch.sportradar.ag -j --np'
-alias loss='mco rpc packetloss ping host="www.google.pl www.vg.no www.wp.pl www.example.com www.lego.com www.onet.pl www.amazon.com" args="-c 5" threads=5 -j'
-alias qloss='mco rpc packetloss ping host="www.google.pl" args="-c 2" threads=1 -j'
 
 alias cd..='cd ..'
 alias cd...='cd ../..'
@@ -123,6 +104,25 @@ alias ...='cd ../..'
 alias 2..='cd ../..'
 alias 3..='cd ../../..'
 alias 4..='cd ../../../..'
+
+# shortcuts
+alias home='cd'
+alias jb='cd $JBOSS_HOME'
+alias jboss='cd $JBOSS_HOME'
+alias dev='cd ~/Development'
+alias down='cd ~/Downloads'
+alias main='cd ~/Perforce/bartek/depot/development/software/AdminPlatformPortlets/messageAdmin/main'
+# print variables
+alias path='echo $PATH'
+alias echopath='echo $PATH'
+alias javahome='echo $JAVA_HOME'
+alias echojava='echo $JAVA_HOME'
+alias jbosshome='echo $JBOSS_HOME'
+alias echojboss='echo $JBOSS_HOME'
+
+# make changes to this file
+alias bashrc='vim ~/.bashrc'
+alias source='source ~/.bashrc'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -152,7 +152,84 @@ fi
 parse_git_branch() {
 git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
-export PS1="\u@\h \W\[\033[32m\]\$(parse_git_branch)\[\033[00m\] $"
+export PS1="\[\033[32m\]\u@\h: \W\[\033[31m\]\$(parse_git_branch)\[\033[00m\] $"
 
-export JBOSS_HOME='/home/bartek/jboss7as' 
-export JAVA_HOME='/home/bartek/Development/jdk1.8.0_20'
+export PATH=$PATH:~/bin
+export JAVA_HOME=`/usr/libexec/java_home -v 1.6`
+export JBOSS_HOME=~/Development/JBoss-fmis
+
+export M2_HOME=/Users/bm185154/Development/apache-maven-2.2.1
+export M2=$M2_HOME/bin
+export PATH=$PATH:$M2
+
+# change this to your workspace:
+export MESSAGE_HOME=~/Perforce/bartek/depot/development/software/AdminPlatformPortlets/messageAdmin/main
+export FMIS_DEV_HOME=~/Perforce/p4_1790/depot/development/software/fmis
+ 
+# start the whole app:
+alias start='cd $MESSAGE_HOME/message; mvn -Pgwt war:exploded gwt:run'
+alias debug='cd $MESSAGE_HOME/message; mvn -Pgwt war:exploded gwt:debug'
+ 
+#recompile a single project:
+alias message='cd $MESSAGE_HOME/message; mvn clean install'
+alias calendar='cd $MESSAGE_HOME/message-calendar; mvn clean install'
+alias campaign='cd $MESSAGE_HOME/message-campaign; mvn clean install'
+alias common='cd $MESSAGE_HOME/message-common; mvn clean install'
+alias editor='cd $MESSAGE_HOME/message-editor; mvn clean install'
+alias env='cd $MESSAGE_HOME/message-env; mvn clean install'
+alias image='cd $MESSAGE_HOME/message-image; mvn clean install'
+alias reports='cd $MESSAGE_HOME/message-reports; mvn clean install'
+alias rpm='cd $MESSAGE_HOME/message-rpm; mvn clean install'
+alias services='cd $MESSAGE_HOME/message-services; mvn clean install'
+alias task='cd $MESSAGE_HOME/message-task; mvn clean install'
+
+export P4PORT=tcp:p4.diginsite.com:1790
+export P4USER=bkrzysztofmaraszek
+export P4PASSWD=bkrzysztofmaraszek12345
+export P4CLIENT=bkrzysztofmaraszek_p4_1790 
+export P4CONFIG=p4config
+export P4_1790=$HOME/Perforce/p4_1790/depot
+export P4EDITOR=gvim
+export M2_REPO="$HOME/.m2/repository"
+export MAVEN_OPTS="-Xmx2024m -XX:+CMSClassUnloadingEnabled"
+export TMPDIR=$HOME/tmp
+
+# FMIS SCRIPTS:
+
+# location of your source code
+export FMIS_BRANCH_NAME=main
+export FMIS_BRANCH_MAIN=main
+export FMIS_BRANCH_FUTURE=main
+# start and stop jboss
+alias stop=$JBOSS_HOME'/bin/run.sh -c default stop'
+alias start=$JBOSS_HOME'/bin/run.sh -c default start'
+# build and deploy
+# alias copytestconfigs='cd ${FMIS_DEV_HOME}/config/${FMIS_BRANCH_NAME}; mvn clean install -f test-configs-pom.xml'
+#copy configs to jboss
+# alias copyconfigs=' cd ${FMIS_DEV_HOME}/build/${FMIS_BRANCH_NAME}; ant -f build.xml'
+# alias copyresources='cp ${FMIS_DEV_HOME}/sso/${FMIS_BRANCH_NAME}/src/main/resources/*.html $JBOSS_HOME/server/default/deploy/ROOT.war'
+#add deploy--mhb and/or payroll to next one if you work on those
+alias buildanddeployall='buildcommon;deploysso;deployttob;deployfw'
+alias buildcommon='cd ${FMIS_DEV_HOME}/common/${FMIS_BRANCH_FUTURE};mvn clean install'
+alias buildsso='cd ${FMIS_DEV_HOME}/sso/${FMIS_BRANCH_FUTURE};mvn clean install'
+alias buildttob='cd ${FMIS_DEV_HOME}/ttob/${FMIS_BRANCH_MAIN};mvn clean install'
+alias buildfw='cd ${FMIS_DEV_HOME}/fw/${FMIS_BRANCH_FUTURE};mvn clean install'
+alias buildtpv='cd ${FMIS_DEV_HOME}/tpv/{FMIS_BRANCH_FUTURE};mvn clean install'
+
+alias deploysso='buildsso; mvn jboss:hard-undeploy jboss:hard-deploy; copyconfigs;copyresources'
+alias deployfw='buildfw; cd fw; mvn jboss:hard-undeploy jboss:hard-deploy; copyconfigs;copyresources'
+alias deployttob='buildttob; cd ttob; mvn jboss:hard-undeploy jboss:hard-deploy; copyconfigs;copyresources'
+alias deploytpv='buildtpv; cd tpv; mvn jboss:hard-undeploy jboss:hard-deploy'
+
+alias testfw='cd ${FMIS_DEV_HOME}/fw/${FMIS_BRANCH_NAME};mvn -Pdevelopment clean install'
+alias testttob='cd ${FMIS_DEV_HOME}/ttob/${FMIS_BRANCH_NAME};mvn -Pdevelopment clean install'
+
+alias go='stop ; build ; start'
+alias gosso='stop ; buildsso ; start'
+alias prime='stop; build; cd $FMIS_DEV_HOME/common; mvn install; cd -; start'
+
+alias log='tail -f $JBOSS_HOME/server/default/log/server.log'
+alias tlog='tail -f $JBOSS_HOME/server/default/log/ttob.log'
+alias slog='tail -f $JBOSS_HOME/server/default/log/sso.log'
+alias mlog='tail -f $JBOSS_HOME/server/default/log/mhb.log'
+alias alog='cd $JBOSS_HOME/server/default/log; tail -f *.log'
