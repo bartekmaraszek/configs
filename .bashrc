@@ -152,9 +152,10 @@ fi
 parse_git_branch() {
 git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
-export PS1="\[\033[32m\]\u@\h: \W\[\033[31m\]\$(parse_git_branch)\[\033[00m\] $"
+export PS1="\[\033[32m\]bartek.localhost: \W\[\033[31m\]\$(parse_git_branch)\[\033[00m\] \[\e[31m\]❱\[\e[m\]\[\e[33m\]❱\[\e[m\]\[\e[32m\]❱\[\e[m\] "
 
 export PATH=$PATH:~/bin
+export PATH=$PATH:~/bin/kdiff3.app/Contents/MacOS
 export JAVA_HOME=`/usr/libexec/java_home -v 1.6`
 export JBOSS_HOME=~/Development/JBoss-fmis
 
@@ -190,6 +191,7 @@ export P4CLIENT=bkrzysztofmaraszek_p4_1790
 export P4CONFIG=p4config
 export P4_1790=$HOME/Perforce/p4_1790/depot
 export P4EDITOR=gvim
+export P4IGNORE=.ignore
 export M2_REPO="$HOME/.m2/repository"
 export MAVEN_OPTS="-Xmx2024m -XX:+CMSClassUnloadingEnabled"
 export TMPDIR=$HOME/tmp
@@ -262,3 +264,16 @@ alias tls='sessions'
 alias tlist='sessions'
 alias tsessions='sessions'
 
+# ssh to DI servers
+
+goto() {
+  case $1 in
+    fmis1 )
+      ssh bkrzysztofmaraszek@anqal10fmiwj003.dca.diginsite.net;;
+    fmis2 )
+      ssh bkrzysztofmaraszek@anqal10fmiwj004.dca.diginsite.net;;
+  esac
+}
+
+alias login='goto'
+alias log='goto'
