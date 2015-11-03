@@ -11,3 +11,7 @@ All go into the home folder e.g. /home/bartek
 .tmux.conf is config file for tmux, a terminal multiplexer. It has to be installed separately.
 Donwload: http://tmux.sourceforge.net/
 How to use tips: http://robots.thoughtbot.com/a-tmux-crash-course
+
+Eclipse preferences include key bindings.
+In order to import them, go to:
+File --> Import... --> General --> Preferences
