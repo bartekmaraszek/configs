@@ -111,7 +111,6 @@ alias jb='cd $JBOSS_HOME'
 alias jboss='cd $JBOSS_HOME'
 alias dev='cd ~/Development'
 alias down='cd ~/Downloads'
-alias main='cd ~/Perforce/bartek/depot/development/software/AdminPlatformPortlets/messageAdmin/main'
 # print variables
 alias path='echo $PATH'
 alias echopath='echo $PATH'
@@ -167,23 +166,6 @@ export PATH=$PATH:$M2
 export MESSAGE_HOME=~/Perforce/bartek/depot/development/software/AdminPlatformPortlets/messageAdmin/main
 export FMIS_DEV_HOME=~/Perforce/p4_1790/depot/development/software/fmis
  
-# start the whole app:
-alias start='cd $MESSAGE_HOME/message; mvn -Pgwt war:exploded gwt:run'
-alias debug='cd $MESSAGE_HOME/message; mvn -Pgwt war:exploded gwt:debug'
- 
-#recompile a single project:
-alias message='cd $MESSAGE_HOME/message; mvn clean install'
-alias calendar='cd $MESSAGE_HOME/message-calendar; mvn clean install'
-alias campaign='cd $MESSAGE_HOME/message-campaign; mvn clean install'
-alias common='cd $MESSAGE_HOME/message-common; mvn clean install'
-alias editor='cd $MESSAGE_HOME/message-editor; mvn clean install'
-alias env='cd $MESSAGE_HOME/message-env; mvn clean install'
-alias image='cd $MESSAGE_HOME/message-image; mvn clean install'
-alias reports='cd $MESSAGE_HOME/message-reports; mvn clean install'
-alias rpm='cd $MESSAGE_HOME/message-rpm; mvn clean install'
-alias services='cd $MESSAGE_HOME/message-services; mvn clean install'
-alias task='cd $MESSAGE_HOME/message-task; mvn clean install'
-
 export P4PORT=tcp:p4.diginsite.com:1790
 export P4USER=bkrzysztofmaraszek
 export P4PASSWD=bkrzysztofmaraszek12345
