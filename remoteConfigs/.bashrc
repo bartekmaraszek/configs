@@ -224,3 +224,31 @@ alias alog='cd $JBOSS_HOME/server/default/log; tail -f *.log'
 
 alias logs='cd /app/logs/jboss'
 alias whp='cd /usr/local/whp-jboss'
+
+# tmux
+session() {
+  tmux new -s $1
+}
+
+attach() {
+  tmux a -t $1
+}
+
+sessions() {
+  tmux ls
+}
+
+kill-session() {
+  tmux kill-session -t $1
+}
+
+alias tkill='kill-session'
+alias tquit='kill-session'
+alias tnew='session'
+alias tsession='session'
+alias tattach='attach'
+alias tat='attach'
+alias ta='attach'
+alias tls='sessions'
+alias tlist='sessions'
+alias tsessions='sessions'
