@@ -178,46 +178,6 @@ export M2_REPO="$HOME/.m2/repository"
 export MAVEN_OPTS="-Xmx2024m -XX:+CMSClassUnloadingEnabled"
 export TMPDIR=$HOME/tmp
 
-# FMIS SCRIPTS:
-
-# location of your source code
-export FMIS_BRANCH_NAME=main
-export FMIS_BRANCH_MAIN=main
-export FMIS_BRANCH_FUTURE=main
-# start and stop jboss
-alias stop=$JBOSS_HOME'/bin/run.sh -c default stop'
-alias start=$JBOSS_HOME'/bin/run.sh -c default start'
-# build and deploy
-# alias copytestconfigs='cd ${FMIS_DEV_HOME}/config/${FMIS_BRANCH_NAME}; mvn clean install -f test-configs-pom.xml'
-#copy configs to jboss
-# alias copyconfigs=' cd ${FMIS_DEV_HOME}/build/${FMIS_BRANCH_NAME}; ant -f build.xml'
-# alias copyresources='cp ${FMIS_DEV_HOME}/sso/${FMIS_BRANCH_NAME}/src/main/resources/*.html $JBOSS_HOME/server/default/deploy/ROOT.war'
-#add deploy--mhb and/or payroll to next one if you work on those
-alias buildanddeployall='buildcommon;deploysso;deployttob;deployfw'
-alias buildcommon='cd ${FMIS_DEV_HOME}/common/${FMIS_BRANCH_FUTURE};mvn clean install'
-alias buildsso='cd ${FMIS_DEV_HOME}/sso/${FMIS_BRANCH_FUTURE};mvn clean install'
-alias buildttob='cd ${FMIS_DEV_HOME}/ttob/${FMIS_BRANCH_MAIN};mvn clean install'
-alias buildfw='cd ${FMIS_DEV_HOME}/fw/${FMIS_BRANCH_FUTURE};mvn clean install'
-alias buildtpv='cd ${FMIS_DEV_HOME}/tpv/{FMIS_BRANCH_FUTURE};mvn clean install'
-
-alias deploysso='buildsso; mvn jboss:hard-undeploy jboss:hard-deploy; copyconfigs;copyresources'
-alias deployfw='buildfw; cd fw; mvn jboss:hard-undeploy jboss:hard-deploy; copyconfigs;copyresources'
-alias deployttob='buildttob; cd ttob; mvn jboss:hard-undeploy jboss:hard-deploy; copyconfigs;copyresources'
-alias deploytpv='buildtpv; cd tpv; mvn jboss:hard-undeploy jboss:hard-deploy'
-
-alias testfw='cd ${FMIS_DEV_HOME}/fw/${FMIS_BRANCH_NAME};mvn -Pdevelopment clean install'
-alias testttob='cd ${FMIS_DEV_HOME}/ttob/${FMIS_BRANCH_NAME};mvn -Pdevelopment clean install'
-
-alias go='stop ; build ; start'
-alias gosso='stop ; buildsso ; start'
-alias prime='stop; build; cd $FMIS_DEV_HOME/common; mvn install; cd -; start'
-
-alias log='tail -f $JBOSS_HOME/server/default/log/server.log'
-alias tlog='tail -f $JBOSS_HOME/server/default/log/ttob.log'
-alias slog='tail -f $JBOSS_HOME/server/default/log/sso.log'
-alias mlog='tail -f $JBOSS_HOME/server/default/log/mhb.log'
-alias alog='cd $JBOSS_HOME/server/default/log; tail -f *.log'
-
 # tmux
 session() {
   tmux new -s $1
