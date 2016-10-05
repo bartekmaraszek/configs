@@ -259,3 +259,7 @@ goto() {
 
 alias login='goto'
 alias log='goto'
+
+f() {
+  find . -print | grep -i $1
+}
