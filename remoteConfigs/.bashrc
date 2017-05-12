@@ -238,6 +238,27 @@ sessions() {
   tmux ls
 }
 
+f() {
+  find . -print | grep -i $1
+}
+
+ff() {
+  grep -rnwl '.' -e $1
+}
+
+fjava() {
+  grep --include=\*.java -rnwl '.' -e $1
+}
+
+fin() {
+  grep --include=\*.$1 -rnwl '.' -e $2
+}
+
+title() {
+  echo -ne "\033]0;"$*"\007"
+}
+
+
 kill-session() {
   tmux kill-session -t $1
 }
