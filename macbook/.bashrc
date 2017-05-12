@@ -152,29 +152,28 @@ fi
 parse_git_branch() {
 git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
-export PS1="\[\033[32m\]bartek.localhost: \W\[\033[31m\]\$(parse_git_branch)\[\033[00m\] \[\e[31m\]❱\[\e[m\]\[\e[33m\]❱\[\e[m\]\[\e[32m\]❱\[\e[m\] "
+export PS1="\[\033[32m\]bartek.localhost \T: \W\[\033[31m\]\$(parse_git_branch)\[\033[00m\] \[\e[31m\]❱\[\e[m\]\[\e[33m\]❱\[\e[m\]\[\e[32m\]❱\[\e[m\] "
 
 export PATH=$PATH:~/bin
 export PATH=$PATH:~/bin/kdiff3.app/Contents/MacOS
 export PATH=$PATH:~/checkout-fmis/git-p4-bridge
-export JAVA_HOME=`/usr/libexec/java_home -v 1.6`
+export PATH=$PATH:/usr/local/mysql/bin
+export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
 export JBOSS_HOME=~/Development/JBoss-fmis
 
 export USP_TOOLS=/Users/bm185154/Perforce/bartek-clean-2015/depot/development/software/usp/migration_tools/navDataMigration
 export PATH=$PATH:$USP_TOOLS
 
 #export M2_HOME=/Users/bm185154/Development/apache-maven-2.2.1
-export M2_HOME=/Users/bm185154/Development/apache-maven-3.2.5
+#export M2_HOME=/Users/bm185154/Development/apache-maven-3.2.5
+export M2_HOME=/Users/bm185154/Development/apache-maven-3.3.9
+
 export M2=$M2_HOME/bin
 export PATH=$PATH:$M2
 
 # change this to your workspace:
 export MESSAGE_HOME=~/Perforce/bartek/depot/development/software/AdminPlatformPortlets/messageAdmin/main
 export FMIS_DEV_HOME=~/Perforce/p4_1790/depot/development/software/fmis
- 
-# start the whole app:
-alias start='cd $MESSAGE_HOME/message; mvn -Pgwt war:exploded gwt:run'
-alias debug='cd $MESSAGE_HOME/message; mvn -Pgwt war:exploded gwt:debug'
  
 #recompile a single project:
 alias message='cd $MESSAGE_HOME/message; mvn clean install'
@@ -269,32 +268,53 @@ alias tls='sessions'
 alias tlist='sessions'
 alias tsessions='sessions'
 
+# Run caps tools
+alias caps='java -jar fmis-capstool-1.1.0-SNAPSHOT.jar --capsfi -e QAL1 -t specifictpv -a Axis.cfg'
+
 # ssh to DI servers
+
+export me=bkrzysztofmaraszek
+export joyce=jsong
+export qal1=anqal10fmiwj003.dca.diginsite.net
+export qal2=anqal20fmiwj101.dca.diginsite.net
+
+alias encoding="vim -c 'execute \"silent !echo \" . &fileencoding | q'"
+
+remote() {
+  case $1 in
+    fmis1 | qa1 | qal1 )
+      ssh -v -L 8787:127.0.0.1:8787 $me@$qal1;;
+    fmis2 | qa2 | qal2 )
+      ssh -v -L 8787:127:0.0.1:8787 $me@$qal2;;
+  esac
+}
+
+alias debug='remote'
 
 goto() {
   case $1 in
-    fmis1 )
-      ssh bkrzysztofmaraszek@anqal10fmiwj003.dca.diginsite.net;;
-    fmis2 )
-      ssh bkrzysztofmaraszek@anqal10fmiwj004.dca.diginsite.net;;
-    newqal2)
-      ssh bkrzysztofmaraszek@anqal20fmiwj101.dca.diginsite.net;;
+    fmis1 | qal1 )
+      ssh $me@$qal1;;
+    fmis2 | qal2 )
+      ssh $me@$qal2;;
     dev1 | dev1dca)
-      ssh bkrzysztofmaraszek@andev10fmiwj003.dca.diginsite.net;;
+      ssh $me@andev10fmiwj003.dca.diginsite.net;;
     dev2 | dev2dca)
-      ssh bkrzysztofmaraszek@andev10fmiwj003.dca.diginsite.net;;
+      ssh $me@andev10fmiwj003.dca.diginsite.net;;
     dev1dcb)
-      ssh bkrzysztofmaraszek@bndev20fmiwj003.dcb.diginsite.net;;
+      ssh $me@bndev20fmiwj003.dcb.diginsite.net;;
     dev2dcb)
-      ssh bkrzysztofmaraszek@bndev20fmiwj004.dcb.diginsite.net;;
+      ssh $me@bndev20fmiwj004.dcb.diginsite.net;;
     pingfed1 | pingfed001)
-      ssh bkrzysztofmaraszek@apqal10pfdge001.dca.diginsite.net;;
+      ssh $me@apqal10pfdge001.dca.diginsite.net;;
     pingfed2 | pingfed002)
-      ssh bkrzysztofmaraszek@apqal10pfdge002.dca.diginsite.net;;
+      ssh $me@apqal10pfdge002.dca.diginsite.net;;
     pingfed3 | pingfed003)
-      ssh bkrzysztofmaraszek@apqal10pfdge003.dca.diginsite.net;;
+      ssh $me@apqal10pfdge003.dca.diginsite.net;;
     pingfed4 | pingfed004)
-      ssh bkrzysztofmaraszek@apqal10pfdge004.dca.diginsite.net;;
+      ssh $me@apqal10pfdge004.dca.diginsite.net;;
+    skynet | skynetqa)
+      ssh $joyce@w3qa.web.qa.diginsite.com
   esac
 }
 
@@ -314,6 +334,22 @@ config() {
 
 f() {
   find . -print | grep -i $1
+}
+
+ff() {
+  grep -rnwl '.' -e $1
+}
+
+fjava() {
+  grep --include=\*.java -rnwl '.' -e $1
+}
+
+fin() {
+  grep --include=\*.$1 -rnwl '.' -e $2
+}
+
+title() {
+  echo -ne "\033]0;"$*"\007"
 }
 
 puts() {
@@ -345,3 +381,6 @@ get() {
 }
 
 alias movie='telnet towel.blinkenlights.nl'
+
+# Added by fabric8-maven-plugin at Thu May 11 16:12:37 BST 2017
+export PATH=$PATH:/Users/bm185154/.fabric8/bin
