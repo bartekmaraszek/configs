@@ -2,25 +2,27 @@
 	email = b.maraszek@gmail.com
 	name = Bartek Maraszek
 [color]
-    diff = auto
-    status = auto
-    branch = auto
-  	ui = auto
+  diff = auto
+  status = auto
+  branch = auto
+  ui = auto
 [alias]
-    st = status
-    ci = commit
-    co = checkout
-    b = branch
-    di = diff
-    dc = diff --cached
-    amend = commit --amend
-    aa = add --all
-    #lg = log --graph --decorate --pretty=oneline --abbrev-commit -n 50
-    lg = log --graph --decorate --pretty=oneline --abbrev-commit 
+  st = status
+  ci = commit
+  co = checkout
+  b = branch
+  di = diff
+  dc = diff --cached
+  amend = commit --amend
+  aa = add --all
+  lg = log --graph --decorate --pretty=oneline --abbrev-commit 
+  cp = cherry-pick
+  g = grep --break --heading --line-number 
 [core]
-    autocrlf = false
-    pager = less -x4
+  pager = less -x4
 	excludesfile = /Users/bm185154/.gitignore_global
+	autocrlf = input
+	filemode = false
 
 [merge]
 	tool = kdiff3
@@ -32,3 +34,10 @@
 	trustExitCode = true
 [pull]
 	ff = only
+[git-p4]
+	skipSubmitEdit = true
+	skipSubmitEditCheck = true
+[apply]
+	ignorewhitespace = change
+[credential]
+	helper = osxkeychain
