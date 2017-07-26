@@ -1,10 +1,13 @@
 .bashrc
 .gitconfig
 .tmux.conf
+.vim/
 .vimrc
 .vrapperrc
 
 All go into the home folder e.g. /home/bartek
+
+.vim/ contains all the vim plugins and theme files
 
 .vrapperrc is a config file for "vrapper" which is an Eclipse plugin.
 
