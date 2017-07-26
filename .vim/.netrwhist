@@ -1,0 +1,8 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =6
+let g:netrw_dirhist_1='/Users/bm185154/notes/dipsAndDiscussion'
+let g:netrw_dirhist_2='/Users/bm185154/checkout/messageAdmin/.git'
+let g:netrw_dirhist_3='/Users/bm185154/Perforce/bartek/depot/development/software/AdminPlatformPortlets/messageAdmin/.git'
+let g:netrw_dirhist_4='/Users/bm185154/checkout-fmis/.metadata'
+let g:netrw_dirhist_5='/Users/bm185154/Library/Preferences/com.perforce.p4v'
+let g:netrw_dirhist_6='/Users/bm185154/checkout/openshift-workshop/java-fatjar/target/fabric8'
