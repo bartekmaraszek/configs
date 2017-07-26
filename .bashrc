@@ -84,6 +84,53 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
+# Add an "alert" alias for long running commands.  Use like so:
+#   sleep 10; alert
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
+# Alias definitions.
+# You may want to put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+
+
+########################################################
+#    TOOLS                                             #
+########################################################
+
+export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
+export JBOSS_HOME=~/Development/JBoss-fmis
+export M2_HOME=/Users/bm185154/Development/apache-maven-2.2.1
+export M2=$M2_HOME/bin
+
+
+########################################################
+#    PATH                                              #
+########################################################
+
+export PATH=$PATH:~/bin
+export PATH=$PATH:~/bin/kdiff3.app/Contents/MacOS
+export PATH=$PATH:$M2
+
+########################################################
+#    COMMON COMMANDS                                   #
+########################################################
+
 # some more ls aliases
 alias ls='ls -CFG'
 alias ll='ls -alFG'
@@ -111,6 +158,7 @@ alias jb='cd $JBOSS_HOME'
 alias jboss='cd $JBOSS_HOME'
 alias dev='cd ~/Development'
 alias down='cd ~/Downloads'
+
 # print variables
 alias path='echo $PATH'
 alias echopath='echo $PATH'
@@ -123,29 +171,10 @@ alias echojboss='echo $JBOSS_HOME'
 alias bashrc='vim ~/.bashrc'
 alias source='source ~/.bashrc'
 
-# Add an "alert" alias for long running commands.  Use like so:
-#   sleep 10; alert
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
-# Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
-
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
-fi
-
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
-if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
-fi
+########################################################
+#    GIT                                               #
+########################################################
 
 # Git branch in prompt.
 parse_git_branch() {
@@ -153,32 +182,31 @@ git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
 export PS1="\[\033[32m\]bartek.localhost: \W\[\033[31m\]\$(parse_git_branch)\[\033[00m\] \[\e[31m\]❱\[\e[m\]\[\e[33m\]❱\[\e[m\]\[\e[32m\]❱\[\e[m\] "
 
-export PATH=$PATH:~/bin
-export PATH=$PATH:~/bin/kdiff3.app/Contents/MacOS
-export JAVA_HOME=`/usr/libexec/java_home -v 1.6`
-export JBOSS_HOME=~/Development/JBoss-fmis
 
-export M2_HOME=/Users/bm185154/Development/apache-maven-2.2.1
-export M2=$M2_HOME/bin
-export PATH=$PATH:$M2
+########################################################
+#    MAVEN                                             #
+########################################################
 
-# change this to your workspace:
-export MESSAGE_HOME=~/Perforce/bartek/depot/development/software/AdminPlatformPortlets/messageAdmin/main
-export FMIS_DEV_HOME=~/Perforce/p4_1790/depot/development/software/fmis
- 
-export P4PORT=tcp:p4.diginsite.com:1790
-export P4USER=bkrzysztofmaraszek
-export P4PASSWD=bkrzysztofmaraszek12345
-export P4CLIENT=bkrzysztofmaraszek_p4_1790 
-export P4CONFIG=p4config
-export P4_1790=$HOME/Perforce/p4_1790/depot
-export P4EDITOR=gvim
-export P4IGNORE=.ignore
-export M2_REPO="$HOME/.m2/repository"
-export MAVEN_OPTS="-Xmx2024m -XX:+CMSClassUnloadingEnabled"
-export TMPDIR=$HOME/tmp
+alias quickstart='project'
+alias qstart='project'
 
-# tmux
+# run a non-interactive custom quickstart archetype 
+# with Java 8, JUnit 4.12, and AssertJ 3.8.0
+
+project() {
+  if (( "$#" != 2 ))
+  then
+    echo "Usage: project package.name projectName"
+    return
+  fi
+mvn archetype:generate -DgroupId=$1 -DartifactId=$2 -DarchetypeGroupId=pl.bmaraszek -DarchetypeVersion=1.0 -DarchetypeArtifactId=custom-quickstart -DinteractiveMode=false
+}
+
+
+########################################################
+#    TMUX                                              #
+########################################################
+
 session() {
   tmux new -s $1
 }
@@ -206,36 +234,41 @@ alias tls='sessions'
 alias tlist='sessions'
 alias tsessions='sessions'
 
-# ssh to DI servers
+########################################################
+#    FINDING FILES                                     #
+########################################################
 
-goto() {
-  case $1 in
-    fmis1 )
-      ssh bkrzysztofmaraszek@anqal10fmiwj003.dca.diginsite.net;;
-    fmis2 )
-      ssh bkrzysztofmaraszek@anqal10fmiwj004.dca.diginsite.net;;
-  esac
-}
-
-alias login='goto'
-alias log='goto'
-
+# find $1 in this directory
 f() {
   find . -print | grep -i $1
 }
 
+# find file containing $1 in this directory
 ff() {
   grep -rnwl '.' -e $1
 }
 
+# find all java files containing $1 in this directory
 fjava() {
   grep --include=\*.java -rnwl '.' -e $1
 }
 
+# find all files not ending with .$1 containing $2 in this directory
 fin() {
   grep --include=\*.$1 -rnwl '.' -e $2
 }
 
+########################################################
+#    UTILITIES                                         #
+########################################################
+
+# set this tab title to $1
 title() {
   echo -ne "\033]0;"$*"\007"
 }
+
+# check what app is listening on port $1
+listen() {
+  lsof -nP -iTCP:$1 -sTCP:Listen
+}
+
