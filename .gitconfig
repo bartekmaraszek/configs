@@ -1,34 +1,66 @@
 [user]
-	email = b.maraszek@gmail.com
+	email = bm185154@ncr.com
 	name = Bartek Maraszek
 [color]
   diff = auto
   status = auto
   branch = auto
-  ui = auto
+	ui = auto
 [alias]
+	# List all aliases in case I forget
+	alias = "!git config -l | grep alias | cut -c 7-"
+	la = "!git config -l | grep alias | cut -c 7-"
+
+	#Modify config
+	ec = config --global -e
+
+	# Workflow
   st = status
-  ci = commit
-  co = checkout
-  b = branch
-  di = diff
-  dc = diff --cached
-  amend = commit --amend
-  aa = add --all
-  lg = log --graph --decorate --pretty=oneline --abbrev-commit 
-  cp = cherry-pick
-  g = grep --break --heading --line-number 
+	a = add
+	aa = add --all
+	b = branch
+	aa = !git add -u && git add . && git status
+	co = checkout
+	cob = checkout -b
+  c = commit -m
+  ci = commit -m
+	cm = !git add . && git commit -m
+	di = diff
+	dc = diff --cached
+	amend = commit --amend
+	cp = cherry-pick
+	g = grep --break --heading --line-number
+
+	# The complex stuff
+  up = !git fetch origin && git rebase origin/master
+	ir = !git rebase -i origin/master
+	done = !git fetch && git rebase origin/master && git checkout master && git merge @{-1}
+	cleanup = !git remote prune origin && git gc && git clean -dfx && git stash clear
+	save = !git add -A && git commit -m 'SAVEPOINT'
+	wip = commit -am "WIP"
+	undo = reset HEAD~1 --mixed
+
+	# LOGS
+  #lg = log --graph --decorate --pretty=oneline --abbrev-commit -n 50
+  lg = log --graph --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
+	ls = log --graph --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
+	# List all changed files per commit
+	ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
+	# Logs with date
+	lsd = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short
+	lds = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short
+	# Relative date
+	ld = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=relative
 [core]
   pager = less -x4
 	excludesfile = /Users/bm185154/.gitignore_global
 	autocrlf = input
 	filemode = false
-
 [merge]
 	tool = kdiff3
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
+	path =
 [mergetool "sourcetree"]
 	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
