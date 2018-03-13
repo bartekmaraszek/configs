@@ -30,6 +30,10 @@ alias rimraf='rm -rf'
 alias root='sudo -i'
 alias su='sudo -i'
 
+ip() {
+  ifconfig | grep inet | grep netmask | grep -v 127.0.0.1 | awk '{print $2}'
+}
+
 ########################################################
 #    MAVEN                                             #
 ########################################################
@@ -53,7 +57,21 @@ project() {
 #    DOCKER                                            #
 ########################################################
 
+dclean() {
+  docker ps -aq --no-trunc | xargs docker rm
+}
 
+alias di="docker images"
+alias dps="docker ps"
+alias dpsa="docker ps -a"
+
+drm() {
+  docker stop $1 && docker rm $1;
+}
+
+drmi() {
+  docker rmi $1;
+}
 
 ########################################################
 #    TMUX                                              #
