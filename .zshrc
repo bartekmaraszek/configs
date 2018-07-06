@@ -107,6 +107,8 @@ bindkey "^[s" insert-sudo
 alias ll='ls -la'
 alias lsa='ls -la'
 alias lsla='ls -la'
+alias rmrf='rm -rf'
+alias rimraf='rm -rf'
 
 ########################################################
 #    MAVEN                                             #
@@ -119,10 +121,15 @@ alias qstart='project'
 # with Java 8, JUnit 4.12, and AssertJ 3.8.0
 
 project() {
-  if (( "$#" != 2 ))
+  if (( $# != 2 ))
   then
     echo "Usage: project package.name projectName"
     return
   fi
-mvn archetype:generate -DgroupId=$1 -DartifactId=$2 -DarchetypeGroupId=pl.bmaraszek -DarchetypeVersion=1.0 -DarchetypeArtifactId=custom-quickstart -DinteractiveMode=false
+mvn archetype:generate -DgroupId=$1 -DartifactId=$2 -DarchetypeGroupId=pl.bmaraszek -DarchetypeVersion=1.0 -DarchetypeArtifactId=custom-quickstart -DinteractiveMode=false &&
+cd $2 &&
+git init &&
+echo ".DS_Store\ntarget\n*.iml\n.idea\n" >> .gitignore &&
+git add . &&
+git commit -m "Initial commit"
 }
