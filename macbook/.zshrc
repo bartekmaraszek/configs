@@ -1,108 +1,21 @@
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:/usr/local/bin:$PATH
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/bm185154/.oh-my-zsh
+export ZSH="/Users/bart.maraszek/.oh-my-zsh"
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="agnoster"
-DEFAULT_USER=`whoami`
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#777788"
 
-########################################################
-#    COMMON COMMANDS                                   #
-########################################################
-
-# some more ls aliases
-alias ls='ls -CFG'
-alias ll='ls -alFG'
-alias lsla='ls -laG'
-alias la='ls -laG'
-alias lsa='ls -aG'
-alias l='ls -CFG'
-
-#rm
-alias rmrf='rm -rf'
-alias rimraf='rm -rf'
-
-# set by bartek:
-alias root='sudo -i'
-alias su='sudo -i'
-
-ip() {
-  ifconfig | grep inet | grep netmask | grep -v 127.0.0.1 | awk '{print $2}'
-}
-
-########################################################
-#    MAVEN                                             #
-########################################################
-
-alias quickstart='project'
-alias qstart='project'
-
-# run a non-interactive custom quickstart archetype
-# with Java 8, JUnit 4.12, and AssertJ 3.8.0
-
-project() {
-  if (( $# != 2 ))
-  then
-    echo "Usage: project package.name projectName"
-    return
-  fi
-  mvn archetype:generate -DgroupId=$1 -DartifactId=$2 -DarchetypeGroupId=pl.bmaraszek -DarchetypeVersion=1.0 -DarchetypeArtifactId=custom-quickstart -DinteractiveMode=false
-}
-
-########################################################
-#    DOCKER                                            #
-########################################################
-
-dclean() {
-  docker ps -aq --no-trunc | xargs docker rm
-}
-
-alias di="docker images"
-alias dps="docker ps"
-alias dpsa="docker ps -a"
-
-drm() {
-  docker stop $1 && docker rm $1;
-}
-
-drmi() {
-  docker rmi $1;
-}
-
-########################################################
-#    TMUX                                              #
-########################################################
-
-session() {
-  tmux new -s $1
-}
-
-attach() {
-  tmux a -t $1
-}
-
-sessions() {
-  tmux ls
-}
-
-kill-session() {
-  tmux kill-session -t $1
-}
-
-alias tkill='kill-session'
-alias tquit='kill-session'
-alias tnew='session'
-alias tsession='session'
-alias tattach='attach'
-alias tat='attach'
-alias ta='attach'
-alias tls='sessions'
-alias tlist='sessions'
-alias tsessions='sessions'
+# Set list of themes to load
+# Setting this variable when ZSH_THEME=random
+# cause zsh load theme from this variable instead of
+# looking in ~/.oh-my-zsh/themes/
+# An empty array have no effect
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -124,7 +37,7 @@ alias tsessions='sessions'
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
+ ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 # COMPLETION_WAITING_DOTS="true"
@@ -137,7 +50,7 @@ alias tsessions='sessions'
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# HIST_STAMPS="mm/dd/yyyy"
+ HIST_STAMPS="yyyy-mm-dd"
 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
@@ -146,7 +59,11 @@ alias tsessions='sessions'
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(
+  git
+  history-substring-search
+  zsh-autosuggestions
+)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -180,9 +97,131 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/Users/bm185154/.sdkman"
-[[ -s "/Users/bm185154/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/bm185154/.sdkman/bin/sdkman-init.sh"
+export SDKMAN_DIR="/Users/bart.maraszek/.sdkman"
+[[ -s "/Users/bart.maraszek/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/bart.maraszek/.sdkman/bin/sdkman-init.sh"
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+#Alt-S inserts "sudo" at the strat of the line
+insert_sudo () { zle beginning-of-line; zle -U "sudo " }
+zle -N insert-sudo insert_sudo
+bindkey "^[s" insert-sudo
+
+########################################################
+#    TOOLS                                             #
+########################################################
+
+export PATH=/Users/bart.maraszek/dev/istio/istio-1.9.1/bin:$PATH
+
+########################################################
+#    ALIASES                                           #
+########################################################
+
+alias ll='ls -la'
+alias lsa='ls -la'
+alias lsla='ls -la'
+alias rmrf='rm -rf'
+alias rimraf='rm -rf'
+alias k='kubectl'
+alias i='istioctl'
+alias d='docker'
+alias h='helm'
+alias localdocker='eval $(minikube docker-env)'
+
+########################################################
+#    HISTORY SEARCH                                    #
+########################################################
+
+bindkey "^[[A" history-substring-search-up
+bindkey "^[[B" history-substring-search-down
+
+########################################################
+#    SERVICE NAMES                                     #
+########################################################
+
+export cracking="ku-cracking-service"
+export dearchive="ku-dearchive-service"
+export ocr="ku-ocr-service"
+export pdf="ku-pdf-conversion-service"
+export taskmanager="ku-taskmanager-service"
+
+########################################################
+#    ARTIFACTORY                                       #
+########################################################
+
+export ARTIFACTORY_USERNAME="username"
+export ARTIFACTORY_PASSPHRASE="placeholder
+
+helmInstallFunc() {
+  if (( $# != 2 ))
+  then
+    echo "helm install usage: helmi [NAME] [CHART]"
+    echo "E.g. helmi ku-pdf-conversion-service ./target/helm/ku-pdf-conversion-service"
+    return
+  fi
+  echo "helm install $1 $2 --set registry.username=$ARTIFACTORY_USERNAME --set registry.password=$ARTIFACTORY_PASSPHRASE"
+  helm install $1 $2 --set registry.username=$ARTIFACTORY_USERNAME --set registry.password=$ARTIFACTORY_PASSPHRASE
+}
+
+helmDeleteFunc() {
+  if (( $# != 1 ))
+  then
+    echo "helm delete usage: helmd [NAME]"
+    echo "E.g. helmd ku-pdf-conversion-service"
+    return
+  fi
+  echo "helm delete $1"
+  helm delete $1
+}
+
+alias helmi='helmInstallFunc'
+alias helmd='helmDeleteFunc'
+
+########################################################
+#    MONGO                                             #
+########################################################
+
+startMongoFunc() {
+  mongoCommand='mongod --dbpath /usr/local/var/mongodb --logpath /usr/local/var/log/mongodb/mongo.log --fork'
+  printf "%s\n\n" $mongoCommand
+  eval "$mongoCommand"
+}
+
+checkMongoFunc() {
+  checkMongo='ps aux | grep -v grep | grep mongod'
+  printf "%s\n\n" $checkMongo
+  eval "$checkMongo"
+}
+
+startAndCheckMongoFunc() {
+  startMongoFunc
+  checkMongoFunc
+}
+
+alias checkMongo='checkMongoFunc'
+alias checkmongo='checkMongoFunc'
+alias startmongo='startAndCheckMongoFunc'
+alias startMongo='startAndCheckMongoFunc'
+
+########################################################
+#    MAVEN                                             #
+########################################################
+
+alias mvni='mvn clean install -Dpactbroker.host=imanage.pact.dius.com.au -Dpactbroker.auth.token=placeholder'
+alias quickstart='project'
+alias qstart='project'
+
+# run a non-interactive custom quickstart archetype 
+# with Java 8, JUnit 4.12, and AssertJ 3.8.0
+
+project() {
+  if (( $# != 2 ))
+  then
+    echo "Usage: project package.name projectName"
+    return
+  fi
+  mvn archetype:generate -DgroupId=$1 -DartifactId=$2 -DarchetypeGroupId=pl.bmaraszek -DarchetypeVersion=1.0 -DarchetypeArtifactId=custom-quickstart -DinteractiveMode=false &&
+  cd $2 &&
+  git init &&
+  echo ".DS_Store\ntarget\n*.iml\n.idea\n" >> .gitignore &&
+  git add . &&
+  git commit -m "Initial commit"
+}
