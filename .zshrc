@@ -2,12 +2,16 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-  export ZSH="/home/bartek/.oh-my-zsh"
+export ZSH="/home/bart/.oh-my-zsh"
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="agnoster"
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#777788"
+
+# OH MY POSH
+eval "$(oh-my-posh --init --shell zsh --config /home/bart/dev/configs/oh-my-posh/bart-unicorn.omp.json)"
 
 # Set list of themes to load
 # Setting this variable when ZSH_THEME=random
@@ -60,6 +64,8 @@ ZSH_THEME="agnoster"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
   git
+  history-substring-search
+  zsh-autosuggestions
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -93,22 +99,40 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/home/bartek/.sdkman"
-[[ -s "/home/bartek/.sdkman/bin/sdkman-init.sh" ]] && source "/home/bartek/.sdkman/bin/sdkman-init.sh"
-
 #Alt-S inserts "sudo" at the strat of the line
 insert_sudo () { zle beginning-of-line; zle -U "sudo " }
 zle -N insert-sudo insert_sudo
 bindkey "^[s" insert-sudo
 
-#Aliases
+########################################################
+#    TOOLS                                             #
+########################################################
 
-alias ll='ls -la'
-alias lsa='ls -la'
-alias lsla='ls -la'
+
+########################################################
+#    ALIASES                                           #
+########################################################
+
+alias dev='cd /mnt/c/Users/bartek/dev'
+alias wcd='cd /mnt/c/Users/bartek'
+alias ls='ls -h -A --color=never'
+alias ll='ls -lah -A --color=never'
+alias lsa='ls -lah -A --color=never'
+alias lsla='ls -lah -A --color=never'
 alias rmrf='rm -rf'
 alias rimraf='rm -rf'
+alias k='kubectl'
+alias i='istioctl'
+alias d='docker'
+alias h='helm'
+alias localdocker='eval $(minikube docker-env)'
+
+########################################################
+#    HISTORY SEARCH                                    #
+########################################################
+
+bindkey "^[[A" history-substring-search-up
+bindkey "^[[B" history-substring-search-down
 
 ########################################################
 #    MAVEN                                             #
@@ -126,10 +150,10 @@ project() {
     echo "Usage: project package.name projectName"
     return
   fi
-mvn archetype:generate -DgroupId=$1 -DartifactId=$2 -DarchetypeGroupId=pl.bmaraszek -DarchetypeVersion=1.0 -DarchetypeArtifactId=custom-quickstart -DinteractiveMode=false &&
-cd $2 &&
-git init &&
-echo ".DS_Store\ntarget\n*.iml\n.idea\n" >> .gitignore &&
-git add . &&
-git commit -m "Initial commit"
+  mvn archetype:generate -DgroupId=$1 -DartifactId=$2 -DarchetypeGroupId=pl.bmaraszek -DarchetypeVersion=1.0 -DarchetypeArtifactId=custom-quickstart -DinteractiveMode=false &&
+  cd $2 &&
+  git init &&
+  echo ".DS_Store\ntarget\n*.iml\n.idea\n" >> .gitignore &&
+  git add . &&
+  git commit -m "Initial commit"
 }
