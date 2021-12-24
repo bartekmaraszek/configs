@@ -1,3 +1,18 @@
+## HOW TO SET UP WINDOWS WSL PROMPT
+
+- See a tutorial here:
+    - https://www.youtube.com/watch?v=VT2L1SXFq9U
+- Intall:
+    - WSL
+    - zsh
+    - ohmyzsh
+    - oh-my-posh
+- Config:
+    - Copy .zshrc file from configs to your home directory:
+    - `cp .zshrc ~/.zshrc`
+
+## CONTENTS
+
 .bashrc
 .gitconfig
 .tmux.conf
