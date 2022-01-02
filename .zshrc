@@ -65,9 +65,9 @@ eval "$(oh-my-posh --init --shell zsh --config /home/bart/dev/configs/oh-my-posh
 plugins=(
   git
   history-substring-search
-  zsh-autosuggestions
 )
 
+unsetopt correct_all
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
@@ -125,6 +125,9 @@ alias k='kubectl'
 alias i='istioctl'
 alias d='docker'
 alias h='helm'
+alias m='mvn'
+alias mi='mvn install'
+alias mci='mvn clean install'
 alias localdocker='eval $(minikube docker-env)'
 
 ########################################################
@@ -157,3 +160,8 @@ project() {
   git add . &&
   git commit -m "Initial commit"
 }
+
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
